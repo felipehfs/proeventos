@@ -29,7 +29,9 @@ namespace ProEventos.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(context => 
-                context.UseSqlite(Configuration.GetConnectionString("Default")));
+                context.UseSqlite(Configuration.GetConnectionString("Default"))
+            );
+            services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -48,9 +50,8 @@ namespace ProEventos.API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseCors(cors => cors.AllowAnyHeader().AllowAnyOrigin());
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
